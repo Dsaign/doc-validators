@@ -4,7 +4,7 @@
 def isValidCPF(cpf):
     # get numbers only
     cpf = [int(char) for char in cpf if char.isdigit()]
-    # check if it has 11 digits
+    # check if it has 11 digits or empty
     if not cpf or len(cpf) < 11:
         return False
     # check if all numbers are equal, e.g. '111.111.111-11'
