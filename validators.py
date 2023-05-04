@@ -5,18 +5,22 @@ def isValidCPF(cpf):
     # get numbers only
     cpf = [int(char) for char in cpf if char.isdigit()]
     # check if it has 11 digits
-    if not cpf and len(cpf) != 11:
+    if not cpf or len(cpf) < 11:
         return False
     # check if all numbers are equal, e.g. '111.111.111-11'
     if cpf == cpf[::-1]:
         return False
-    # validate checksum digits
-    for i in (10, 11):
-        value = sum((cpf[num] * (i - num) for num in range(i - 1)))
-        digit = ((value * 10) % 11) % 10
-        if digit != cpf[i]:
-            return False
-    return True
+    # get 9 first cpf digits and generate last 2 digits
+    integers = map(int, cpf)
+    new_cpf = integers[:9]
+    while len(new_cpf) < 11:
+        r = sum([(len(new_cpf)+1-i)*v for i,v in enumerate(new_cpf)]) % 11
+        f = (11-r) if r > 1 else 0
+        new_cpf.append(f)
+    # if digits are equal, True
+    if new_cpf == integers:
+        return True
+    return False
 
 def isValidCNPJ(cnpj):
     # get numbers only
